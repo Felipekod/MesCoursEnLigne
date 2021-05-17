@@ -117,7 +117,7 @@
 }
 
 
-/* index main */
+/* -------------------------------  index main ----------------------------------------------------- */
 main {
     background:  url("../Images/techbg02.png");
     background-size: 500px auto;
@@ -190,3 +190,45 @@ main {
     width: 50px;
 }
 
+
+/* ----------------------   Inspription.php ------------------------------ */
+
+.inscription{
+    margin: 70px auto 70px auto;
+    display:flex;
+    flex-direction: column;
+    text-align: right;
+    background: rgba(100, 104, 104, 0.17);
+    border: solid 2px rgba(122, 122, 122, 0.315) ;
+    border-radius: 20px;
+    backdrop-filter: blur(1.3px);
+    width: 540px;
+}
+.inscription label{
+    margin-top: 20px;
+}
+.inscription label input{
+    width: 250px;
+    margin-right: 20px;
+}
+
+.inscription fieldset{
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    margin-right: 20px;
+
+}
+.inscription fieldset legend{
+    margin-bottom: 5px;
+    margin-right: 20px;
+    font-size: 20px;
+}
+.frais{
+    position: relative;
+    right: 120px;
+}
+
+.envoyer{
+    margin: 20px 20px 20px 20px;
+}
