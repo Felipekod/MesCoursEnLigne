@@ -21,11 +21,6 @@ isset($_SESSION['nomUtilisateur'])?entete_page(true):entete_page();
                     <img class="programmes__images" src="Images/php01.png" alt="logo PHP">
                     <p>Programme</p>
                     <h3>PHP</h3>
-                    <ul>
-                        <a></a>
-                        <a></a>
-                        <a></a>
-                    </ul>
                 </li>
             </ul>
             <ul class="programmes__unite">
@@ -33,11 +28,6 @@ isset($_SESSION['nomUtilisateur'])?entete_page(true):entete_page();
                     <img class="programmes__images" id="logo__java" src="Images/java01.png" alt="logo Java">
                     <p>Programme</p>
                     <h3>Java</h3>
-                    <ul>
-                        <a></a>
-                        <a></a>
-                        <a></a>
-                    </ul>
                 </li>
             </ul>
             <ul class="programmes__unite">
@@ -45,11 +35,6 @@ isset($_SESSION['nomUtilisateur'])?entete_page(true):entete_page();
                     <img class="programmes__images" src="Images/csharp01.png" alt="logo Csharp">
                     <p>Programme</p>
                     <h3>C#</h3>
-                    <ul>
-                        <a></a>
-                        <a></a>
-                        <a></a>
-                    </ul>
                 </li>
             </ul>
             <ul class="programmes__unite">
@@ -57,11 +42,6 @@ isset($_SESSION['nomUtilisateur'])?entete_page(true):entete_page();
                     <img  class="programmes__images" src="Images/python01.png" alt="logo Python">
                     <p>Programme</p>
                     <h3>Python</h3>
-                    <ul>
-                        <a></a>
-                        <a></a>
-                        <a></a>
-                    </ul>
                 </li>
             </ul>
             <ul class="programmes__unite">
@@ -69,23 +49,11 @@ isset($_SESSION['nomUtilisateur'])?entete_page(true):entete_page();
                     <img class="programmes__images" src="Images/unity02.png" alt="logo Unity">
                     <p>Programme</p>
                     <h3>Unity</h3>
-                    <ul>
-                        <a></a>
-                        <a></a>
-                        <a></a>
-                    </ul>
                 </li>
             </ul>
         </div>
     </section>
 </main>
 
-
-<?php
-
-
-
-creer_pied_html();
-
-
-?>
+<footer>
+</footer>

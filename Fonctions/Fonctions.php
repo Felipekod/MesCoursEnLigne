@@ -1,4 +1,9 @@
 <?php
+require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require 'vendor/phpmailer/phpmailer/src/Exception.php';
+require 'vendor/phpmailer/phpmailer/src/OAuth.php';
+require 'vendor/phpmailer/phpmailer/src/POP3.php';
+require 'vendor/phpmailer/phpmailer/src/SMTP.php';
 
 //Connexion à MySQL
 function ConnectionBD()
@@ -63,7 +68,7 @@ function entete_page($logged = false)
             <div class="background__logo"> </div>
             
 
-            <h1 id="titre">Mes Cours en->ligne </h1>
+            <a href="Index.php" id="titre"><h1>Mes Cours en->ligne </h1></a>
 
             <div>
                 <!-- Si l'utilisateur n'est pas authentié -->
@@ -86,8 +91,16 @@ function entete_page($logged = false)
 
                 <nav class="navigation">
                     <ul>
-                        <li><a href="Programmes.php">Programmes</a></li>
-                        <li><a href="Inscription.php">Inscrivez-vous</a></li>
+                        <?php if(!$logged): ?>
+                            <li><a href="Programmes.php">Programmes</a></li>
+                            <li><a href="Inscription.php">Inscrivez-vous</a></li>
+                        <?php elseif($_SESSION['nomUtilisateur']=='Maitre'): ?>
+                            <li><a href="FenetrePrincipale.php">Accueil</a></li>
+                            <li><a href="Instructeurs.php">Instructeurs</a></li>
+                        <?php else: ?>
+                            <li><a href="Programmes.php">Programmes</a></li>
+                            <li><a href="MesCours.php">Mes Cours</a></li>
+                        <?php endif; ?>
                     </ul>
                 </nav>
 
@@ -150,33 +163,19 @@ function authentification($nomUtilisateur, $motPasse)
 
 }
 
-function enregistrementSession($utilisateur)
+function enregistrementSession($information)
 {
 
      //inserction de données dans des variables de session.  
 
-
-     //TO DO
-     $_SESSION['nomUtilisateur'] = $information['NomUtilisateur'];
-     $_SESSION['motPasse'] = $information['MotPasse'];
+     $_SESSION['idUtilisateur'] = $information['Id_Utilisateur'];
+     $_SESSION['nomUtilisateur'] = $information['Nom_Utilisateur'];
+     $_SESSION['motPasse'] = $information['Mot_Passe'];
      $_SESSION['prenom'] = $information['Prenom'];
-     $_SESSION['nomFamille'] = $information['Nom'];
-     $_SESSION['adresse'] = $information['Adresse'];
-     $_SESSION['ville'] = $information['Ville'];
-     $_SESSION['province'] = $information['Province'];
-     $_SESSION['codePostal'] = $information['CodePostal'];
-     $_SESSION['telephone'] = $information['Telephone'];
-     $_SESSION['cellulaire'] = $information['Cellulaire'];
-     $_SESSION['courriel'] = $information['Courriel'];
-     $_SESSION['typeAnimal'] = $information['TypeAnimal'];
-     $_SESSION['nomAnimal'] = $information['NomAnimal'];
-     $_SESSION['raceAnimal'] = $information['RaceAnimal'];
-     $_SESSION['ageAnimal'] = $information['AgeAnimal'];
-     $_SESSION['commentaires'] = $information['Commentaires'];
+     $_SESSION['nom'] = $information['Nom'];
+     $_SESSION['adresseCourriel'] = $information['Adresse_Courriel'];
+     $_SESSION['codeProgramme'] = $information['Code_Programme'];
      $_SESSION['enregistre'] = 'true';
-
-     $prenom = isset($_SESSION['prenom'])?$_SESSION['prenom']:'';
-     $nomFamille = isset($_SESSION['nomFamille'])?$_SESSION['nomFamille']:'';
 
 }
 
@@ -216,7 +215,7 @@ function recupererEtudiantsParCours()
     }
 }
 
-//recuperer la liste de programmes
+//recuperer la table de la liste de programmes
 function recupererCoursParProgramme()
 {
     $connection = ConnectionBD();
@@ -227,7 +226,7 @@ function recupererCoursParProgramme()
     else 
     {
         //creation de la requete select
-        $requete = "SELECT A.Code_Programme, A.Titre_Programme, C.Code_Cours,C.Titre_Cours, C.Description_Cours
+        $requete = "SELECT A.Code_Programme, A.Titre_Programme, C.Code_Cours,C.Titre_Cours, C.Description_Cours, C.Duree_Cours
         FROM tblprogrammes AS A
         INNER JOIN tblcours_programme AS B
         ON A.Code_Programme = B.Code_Programme
@@ -250,8 +249,9 @@ function recupererCoursParProgramme()
     }
 }
 
-//On enregistre le resultat de la table dans une variable array
-function listeCoursParProgramme($tableCoursParProgramme)
+
+//Function pour recuperer le cours disponible par programme
+function listeCoursDisponibleParProgramme($tableCoursParProgramme, $codeProgrammeUtilisateur)
 {
     $titreProgramme;
     $codeProgramme;
@@ -262,8 +262,8 @@ function listeCoursParProgramme($tableCoursParProgramme)
     //$arrayCoursParProgramme = array();
     
 
-        $quantiteLignes = count($tableCoursParProgramme);
-        for ($i=0; $i < $quantiteLignes - 1 ; $i++) { 
+        $quantiteCours = count($tableCoursParProgramme);
+        for ($i=0; $i < $quantiteCours - 1 ; $i++) { 
 
             $codeProgramme = $tableCoursParProgramme[$i][0];
             $titreProgramme = $tableCoursParProgramme[$i][1];
@@ -271,55 +271,210 @@ function listeCoursParProgramme($tableCoursParProgramme)
             $titreCours = $tableCoursParProgramme[$i][3];
             $description = $tableCoursParProgramme[$i][4];
 
+            ?><ul><?php
+
             //si le programme est le premier de la liste
-            if($i == 0)
+            if($codeProgramme == $codeProgrammeUtilisateur)
             {
-                ?> <ul>
-                    <li><h2 id="<?php echo($codeProgramme) ?>"> <?php echo($titreProgramme) ?></h2>  </li>
-                    <li> <?php echo($codeProgramme) ?>  </li>
-                    <ul> 
+                ?> 
+                    
                         <li>
                             <h2> <?php echo($titreCours) ?>  </h2>
                             <h3> <?php echo($codeCours) ?>  </h2>
                             <p> <?php echo($description) ?>  </p>
                         </li> 
-                    
-                    <?php //Si le cours ne fait pas part du prochain programme on ferme la liste
-                    if($codeProgramme != $tableCoursParProgramme[$i +1][0])
-                    {
-                        ?> </ul>
-                        </ul><?php
-                    }
-            }
-            else 
-            {
-                //Si le cours ne fait pas part du programme antecedent on crie une liste pour le nouveau programme
-                if($codeProgramme != $tableCoursParProgramme[$i -1][0])
-                {
-                    ?> <ul>
-                        <li><h2 id="<?php echo($codeProgramme) ?>"><?php echo($titreProgramme) ?></h2></li><?php
-                    ?>  <li> <?php echo($codeProgramme) ?>  </li>
-                        <ul> <?php
-                }
-                        ?><li> 
-                            <h2> <?php echo($titreCours) ?>  </h2>
-                            <h3> <?php echo($codeCours) ?>  </h2>
-                            <p> <?php echo($description) ?>  </p>
-                        </li><?php
 
-                //Si le cours ne fait pas part du prochain programme on ferme la liste
-                if($codeProgramme != $tableCoursParProgramme[$i +1][0])
-                {
-                    ?> </ul>
-                    </ul><?php
-                }
-            }
+            <?php   
+            } ?>
+
+            </ul> <?php
         
         }
 
 }
 
+// Recuperer une table qui contient la liste de code du cours qui l'utilisateur est inscrit. Recupere ainsi la note si le cours a été completé.
+function recupererCodeCoursNote()
+{
+    $connection = ConnectionBD();
+    $idEtudiant = $_SESSION["idUtilisateur"];
 
+    $requete = "SELECT A.Code_Cours, A.Note FROM tbl_utilisateurs_cours as A
+    INNER JOIN tbl_utilisateurs AS B
+    ON A.Id_Etudiant = B.Id_Utilisateur
+    WHERE B.Id_Utilisateur = '$idEtudiant'";
+
+    $resultat = mysqli_query($connection, $requete );
+
+    if(mysqli_num_rows($resultat) != 0)
+    {
+        $tableCodeCoursNote = mysqli_fetch_all($resultat);
+        return $tableCodeCoursNote;
+    }
+    else {
+        return false;
+
+    }
+
+    
+}
+
+function returneListeCoursInscrit($tableCoursParProgramme, $tableCodeCoursNote)
+{
+    $quantiteCours = count($tableCoursParProgramme);
+    $quantiteCoursInscrits = count($tableCodeCoursNote);
+    $listeCoursInscrit = array();
+
+    if($tableCodeCoursNote === false)
+    {
+        ?> 
+        <div>
+            <h2>Voulez-vous inscrire dans un cours associé à votre programme</h2>
+        </div>
+         <?php
+
+    }
+    else {
+        ?> 
+        <div>
+            <h2 id="mesCours">Mes cours</h2>
+            <ul class="mesCours__liste">
+         <?php
+
+            //On fait parcourir la table de cours par programme
+        for ($i=0; $i < $quantiteCours - 1 ; $i++) { 
+
+            $codeProgramme = $tableCoursParProgramme[$i][0];
+            $titreProgramme = $tableCoursParProgramme[$i][1];
+            $codeCours = $tableCoursParProgramme[$i][2];
+            $titreCours = $tableCoursParProgramme[$i][3];
+            $description = $tableCoursParProgramme[$i][4];
+
+            //On identifie les cours inscrits par l'etudiant
+            for ($j=0; $j <= $quantiteCoursInscrits - 1 ; $j++) { 
+
+                //Si le code du cours de la première table existe dans la deuxième table
+                if($codeCours == $tableCodeCoursNote[$j][0]){
+                    //si il n'y a pas de note enregistré on insère la valeur 'N/A'
+                    $note;
+                    isset($tableCodeCoursNote[$j][1])?$note = $tableCodeCoursNote[$j][1]: $note = 'N/A';
+
+                    ?> <li>
+                            <h2><?php echo($titreCours); ?></h2>
+                            <h3><?php echo($codeCours); ?></h3>
+                            <p>Note: <?php echo($note); ?></p>
+                       </li> <?php
+
+                }
+
+            }
+            
+        }
+        ?>
+             </ul>
+        </div>
+        <?php
+        
+        
+    }
+
+    
+
+}
+//------------ Enregistrement Cours
+function verifierCoursChoisi($idEtudiant, $codeCours){
+    $connection = ConnectionBD();
+    if(! $connection)
+    {
+        $message = "Impossible de se connecter à la base de donnée.";
+    }
+    else 
+    {
+        //creation de la requete select
+        $requete = "SELECT *
+        FROM tbl_utilisateurs_cours
+        WHERE Id_Etudiant = $idEtudiant AND Code_Cours = '$codeCours'";
+
+        $query = mysqli_query($connection, $requete);
+        if(mysqli_num_rows($query) != 0)
+        {
+            return false;
+        }
+        else
+        {
+           return true;
+        }
+    }
+
+}
+
+function inscriptionCours($idEtudiant, $codeCours){
+
+    $connection = ConnectionBD();
+    if(! $connection)
+    {
+        $message = "Impossible de se connecter à la base de donnée.";
+    }
+    else 
+    {
+        //creation de la requete select
+        $requete = "INSERT INTO  tbl_utilisateurs_cours
+                    (Id_Etudiant, Code_Cours) 
+                    VALUES ($idEtudiant, '$codeCours')";
+
+        if(mysqli_query($connection, $requete))
+        {
+            return true;
+        }
+        else {
+            
+            return false;
+        }
+    }
+}
+//------------------- mail ------------------------
+
+function confirmationEmail($nomEtudiant, $mail, $codeCours){
+    try{
+        $mail = new PHPMailer\PHPMailer\PHPMailer();
+        $mail -> Host = "smtp.gmail.com"; 
+        $mail -> Port = 587;
+        $mail -> SMTPAuth = true;
+        $mail -> SMTPSecure = 'tls';
+        $mail->CharSet="UTF-8";
+        $mail -> Username = 'votregmail@gmail.com';
+        $mail -> Password = 'votreMotPasse';
+        $mail -> setFrom('felipe.kodorna@gmail.com', 'Test');
+        $mail->addAddress($mail, $nom);
+        $mail -> IsSMTP(true);
+        $mail->isHTML(true);
+        $mail->AllowEmpty = true;
+        $mail -> SMTPDebug = 3;
+        $mail -> Subject = "Confirmation inscription.";
+        $mail -> Body = 'Bonjour' . $nom . '<br> Vous avez inscrit dans le cours: ' . $codeCours;
+    
+    }
+    catch (phpmailerException $e) 
+    {
+        echo $e->errorMessage(); //Error messages from PHPMailer
+    } 
+    
+    
+    
+    if (!$mail -> send())
+    {
+    
+        echo "Error -- Message not send!";
+        
+    }
+   
+}
+//------------------- Test function ------------------------
+function print_r2($val){
+    echo '<pre>';
+    print_r($val);
+    echo  '</pre>';
+}
 
 
 ?>

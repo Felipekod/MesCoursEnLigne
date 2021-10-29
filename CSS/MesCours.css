@@ -10,7 +10,7 @@
     border-bottom: solid 3px rgb(90, 199, 139);
     -webkit-box-shadow: 0 -10px 5px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 0 -10px 5px 0px rgba(0,0,0,0.75);
-    box-shadow: 0px -10px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px -10px 5px 0px rgba(0, 0, 0, 0.75); 
     
 }
 .entete__boite{
@@ -38,6 +38,7 @@
     background: rgba(189, 189, 189, 0.1);
     backdrop-filter: blur(8px);
     border-radius: 25px;
+    text-decoration: none;
 }
 
 
@@ -119,9 +120,9 @@
 
 /* -------------------------------  index main ----------------------------------------------------- */
 main {
-    background:  url("../Images/techbg02.png");
-    background-size: 500px auto;
-    overflow: auto;
+    background: linear-gradient(#b8f1c9, #fafafa);
+    padding-top: 15px;
+    padding-bottom: 300px;
     
 }
 .bienvenue{
@@ -171,6 +172,21 @@ main {
     text-align: center;
     border-radius: 10px;
     backdrop-filter: blur(0.7px);
+    display: flex;
+    flex-direction: column-reverse;
+}
+.programmes__unite:first-child img{
+    height: 80px;
+    width: auto;
+}
+.programmes__unite p{
+    margin-top: 20px;
+    margin-bottom: 7px;
+
+}
+.programmes__unite h3{
+    font-size: 30px;
+    margin-bottom: 20px;
 }
 
 .programmes__unite:hover{
@@ -231,4 +247,294 @@ main {
 
 .envoyer{
     margin: 20px 20px 20px 20px;
+}
+
+/* ----------------------   Instructeurs.php ------------------------------ */
+#instructeurs__main{
+    display: block;
+    text-align: center;
+}
+
+.instructeurs__Select{
+    display: flex;
+    width: 700px;
+    margin: 0 auto 0 auto;
+    padding-top: 20px;
+}
+.instructeurs__Select legend{
+    font-size: 30px;
+    font-weight: 700;
+    color: rgb(88, 88, 88);
+}
+.instructeurs__Select select{
+    width: 300px;
+    height: 30px;
+    text-align-last: center;
+    margin: 11px 0 0 40px;
+    background-color: rgba(255, 255, 255, 0.74);
+    border-color:5px rgba(255, 255, 255, 0.74);
+}
+.instructeurs__Select input{
+    width: 80px;
+    height: 50px;
+    border-radius: 20px;
+}
+.instructeurs__Select input:hover{
+    background-color: rgb(152, 233, 136);
+    transition: 0.4s;
+    font-size: 18px;
+    font-weight: 600;
+    color: rgb(252, 252, 252);
+    cursor: pointer;
+    border: #f1f1f1;
+}
+
+.instructeurs__table{
+    box-sizing: border-box;
+    width: 900px;
+    margin: 10px auto 50px auto;
+    background: rgba(223, 223, 223, 0.699);
+    border: solid 15px rgba(100, 104, 104, 0.01) ;
+    border-radius: 15px;
+    padding: 10px 10px 10px 10px;
+    backdrop-filter: blur(1.6px);
+}
+
+.instructeurs__table th{
+    border-bottom: 3px solid olivedrab;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.instructeurs__table td{
+    padding: 10px;
+}
+.instructeurs__table th:nth-child(2){
+    width: 100px;
+}
+.instructeurs__table td:nth-child(2){
+    text-align: center;
+}
+.instructeurs__table tr:nth-child(even){
+    background: rgba(57, 230, 34, 0.17);
+}
+.instructeurs__table a{
+    position: relative;
+    top:20px;
+    text-decoration: none;
+    color: rgba(3, 32, 6, 0.884);
+    font-weight: 500;
+    font-size: 17px;
+    padding: 30px auto auto auto;
+}
+.instructeurs__table a:hover{
+    color: rgba(43, 173, 10, 0.75);
+    transition: 0.4s;
+}
+
+.instructeurs__formulaire{
+    width: 500px;
+    margin: 0 auto 50px auto;
+    text-align: center;
+    color: rgba(1, 27, 3, 0.801);
+}
+.instructeurs__formulaire form{
+    display: flex;
+    flex-direction: column;
+    background: rgba(100, 104, 104, 0.17);
+    border-radius: 20px;
+}
+.instructeurs__formulaire p{
+    margin: 15px auto 0 auto;
+    font-weight: 700;
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.76);
+    line-height: 1.6;
+}
+.instructeurs__formulaire input:nth-child(4){
+    width: 300px;
+    margin: 15px auto 0 auto;
+    border-radius: 5px;
+    border-color: rgba(255, 255, 255, 0.596) ;
+}
+.instructeurs__formulaire input:nth-child(5){
+    width: 300px;
+    margin: 15px auto 0 auto;
+    border-radius: 5px;
+    border-color: rgba(255, 255, 255, 0.596) ;
+}
+#instructeurs__textarea{
+    width: 440px;
+    height: 300px;
+    margin: 15px auto 15px auto;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.596);
+    backdrop-filter: blur(1.6px);
+    padding: 5px;
+}
+#instructeurs__enregistrer{
+    height: 40px;
+    margin: 2px;
+    font-size: 20px;
+    font-weight: 800;
+    color: rgba(49, 46, 8, 0.774);;
+    border-radius: 12px;
+    background: rgba(139, 139, 139, 0.329);
+    border-color: rgba(255, 255, 255, 0.212) ;
+    backdrop-filter: blur(1.6px);
+
+}
+#instructeurs__enregistrer:hover{
+    cursor: pointer;
+    background-color:rgba(78, 255, 116, 0.589) ;
+    transition: 0.4s;
+    color: #f1f1f1;
+    font-size: 25px;
+}
+
+.table_etudiants{
+    box-sizing: border-box;
+    width: 900px;
+    margin: 10px auto 0px auto;
+    background: rgba(223, 223, 223, 0.699);
+    border: solid 15px rgba(100, 104, 104, 0.01) ;
+    border-radius: 15px;
+    padding: 10px 10px 10px 10px;
+    backdrop-filter: blur(1.6px);
+}
+
+#tableEtudiants{
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;
+    color: rgb(5, 46, 23);
+}
+
+.tableEtudiants th{
+    padding: 15px;
+}
+.tableEtudiants td{
+    padding: 25px;
+}
+
+/* ---------------------------------- Programmes.php ---------------------------------------- */
+
+.programmes__liste{
+    margin: 0 20%;
+    padding-top: 20px;
+}
+
+.programmes__liste li{
+    margin-top: 15px;
+    padding: 0 15px 20px 15px;
+    border: solid 1px;
+    border-radius: 15px;
+    background: rgba(139, 139, 139, 0.158);
+    border-color: rgba(255, 255, 255, 0.212);
+    backdrop-filter: blur(1.6px);
+}
+
+.programmes__liste a{
+    text-decoration: none;
+    color: rgb(8, 22, 5);
+    
+}
+
+.programmes__liste h2{
+    margin-top: 18px;
+    text-align: center;
+    font-size: 22px;
+    color: rgb(8, 22, 5);
+    font-weight: 600;
+}
+.programmes__liste p{
+    font-size: 18px;
+    margin-top: 5px;
+    line-height: 25px;
+}
+
+/* ---------------------------------- Cours.php ---------------------------------------- */
+
+.cours__liste{
+    margin: 0 20% 0 20%;
+}
+
+.cours__liste li {
+    padding: 15px 15px 20px 15px;
+    border: solid 1px;
+    border-radius: 15px;
+    background: rgba(139, 139, 139, 0.158);
+    border-color: rgba(255, 255, 255, 0.212) ;
+    backdrop-filter: blur(1.6px);
+}
+
+.cours__liste h1{
+    text-align: center;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.cours__liste h2{
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+.cours__liste h3{
+    text-align: center;
+}
+.cours__liste h4{
+    margin-bottom: 5px;
+}
+.cours__liste a{
+    text-decoration: none;
+}
+
+/* ---------------------------------- EnregistrementCours.php ---------------------------------------- */
+.cours__choisi{
+    text-align: center;
+    font-weight: 600;
+}
+
+/* ---------------------------------- MesCours.php ---------------------------------------- */
+#mesCours{
+    text-align: center;
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.mesCours__liste{
+    text-align: center;
+}
+.mesCours__liste li{
+    margin: 15px 20% 0 20%;
+    padding: 15px 15px 20px 15px;
+    border: solid 1px;
+    border-radius: 15px;
+    background: rgba(139, 139, 139, 0.158);
+    border-color: rgba(255, 255, 255, 0.212) ;
+    backdrop-filter: blur(1.6px);
+}
+.mesCours__liste h2{
+    font-size: 20px;
+    color: rgb(8, 22, 5);
+    font-weight: 600;
+}
+
+.mesCours__liste h3{
+    margin-top: 5px;
+    color: rgb(88, 88, 88);
+}
+
+.mesCours__liste p {
+    font-size: 16px;
+    margin-top: 5px;
+    color: rgb(27, 70, 14);
+}
+
+/* ---------------------------------- footer ---------------------------------------- */
+footer{
+	background: url("../Images/bg.jpg");
+	height: 140px;
+    width: 100%;
 }
